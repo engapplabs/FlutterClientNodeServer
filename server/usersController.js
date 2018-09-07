@@ -38,26 +38,34 @@ class Controller {
     async getUserData(req, res, next) {
         const givenToken = req.get("Authorization");
         console.log("Given token: " + givenToken);
-        //if(!givenToken)
-            //return res.status(401).json({ msg: "Missing Authorization." });
+        if(!givenToken)
+            return res.status(401).json({ msg: "Missing Authorization." });
         try {
-            //const tokenPayload = jwt.verify(
-                //        givenToken, process.env.AUTH_SECRET);
+            const tokenPayload = jwt.verify(givenToken, process.env.AUTH_SECRET);
             return res.status(200).json(user);
         } catch (e) {
-            return res.status(401).send("Unauthorized.");
+            return res.status(401).json({ msg:"Unauthorized." });
         }
     }
 
     async changeUserData(req, res, next) {
-        const { name, email, password } = req.body;
-        if(name)
-            user.name = name;
-        if(email)
-            user.email = email;
-        if(password)
-            user.password = password;
-        return res.status(200).json(user);
+        const givenToken = req.get("Authorization");
+        console.log("Given token: " + givenToken);
+        if(!givenToken)
+            return res.status(401).json({ msg: "Missing Authorization." });
+        try {
+            const tokenPayload = jwt.verify(givenToken, process.env.AUTH_SECRET);
+            const { name, email, password } = req.body;
+            if(name)
+                user.name = name;
+            if(email)
+                user.email = email;
+            if(password)
+                user.password = password;
+            return res.status(200).json(user);
+        } catch (e) {
+            return res.status(401).json({ msg: "Operation Unauthorized" });
+        }
     }
 }
 
