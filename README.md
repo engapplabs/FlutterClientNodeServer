@@ -8,6 +8,7 @@ Making Bind between flutter as a client and Node as backend.
 + *run npm start and keep it running*
 + open the Flutter folder
 + Run flutter packages get
++ **Place your own IP at the server url API calls at the login_screen.dart**
 + run flutter run
 
 ## To play with JWT token and HTTP verbs
